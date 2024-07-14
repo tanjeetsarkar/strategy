@@ -1,13 +1,13 @@
 import strawberry
 from typing import List
 from strawberry.types import Info
-
+from strawberry.scalars import JSON
 from models import Node, Link, Rule
 
 @strawberry.type
 class NodeType:
     id: int
-    decision: dict
+    decision: JSON
 
 @strawberry.type
 class LinkType:
@@ -18,7 +18,7 @@ class LinkType:
 @strawberry.type
 class RuleType:
     id: int
-    rule: dict
+    rule: JSON
 
 @strawberry.type
 class Query:
@@ -41,7 +41,7 @@ class Query:
 class Mutation:
 
     @strawberry.mutation
-    def add_node(self, info: Info, decision: dict) -> NodeType:
+    def add_node(self, info: Info, decision: JSON) -> NodeType:
         db = info.context["db"]
         node = Node(decision=decision)
         db.add(node)
@@ -59,7 +59,7 @@ class Mutation:
         return edge
 
     @strawberry.mutation
-    def add_rule(self, info: Info, rule: dict) -> RuleType:
+    def add_rule(self, info: Info, rule: JSON) -> RuleType:
         db = info.context["db"]
         rule = Rule(rule=rule)
         db.add(rule)
