@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine, Column, Integer, ForeignKey, JSON
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship, sessionmaker
+from sqlalchemy.orm import sessionmaker
 
 DATABASE_URL = "postgresql+psycopg2://postgres:example@localhost:5433/graphdb"
 

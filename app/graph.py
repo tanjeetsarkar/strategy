@@ -1,5 +1,9 @@
 import uuid
 import random
+from models import Node as ModelNode
+from models import Link as ModelLink
+from sqlalchemy.orm.session import Session
+from models import SessionLocal
 
 class Node:
 
@@ -35,8 +39,27 @@ class Graph:
 
         return graph
 
+    def create_in_db(self, db:Session):
+        graph: dict[Node, list[Node]] = {}
+        for i in range(self.node_count):
+            node = ModelNode(decision=f"Node {i}")
+            db.add(node)
+            print(node.id)
+            graph[node] = []
+        db.flush()
+        for _ in range(self.edge_count):
+            x,y = random.sample(list(graph.keys()), 2)
+            link = ModelLink(left=x.id, right=y.id)
+            print("left: ", x.id,"right: ", y.id, "linkId: ", link.id)
+            db.add(link)
+            graph[x].append(y)
+        db.flush()
+        db.commit()
+        return graph
+
 
 if __name__ == "__main__":
     g = Graph(8,20)
-    graph = g.create()
-    print(graph)
+    db = SessionLocal()
+    graph = g.create_in_db(db)
+
