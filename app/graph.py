@@ -1,7 +1,3 @@
-# strategy is going to be a multi-headed linked list which will act as graph.
-# each node will contain links to other nodes in list (as it can be changed). 
-# each node will have a call back function which will define the functionality of the node.
-
 import uuid
 import random
 
